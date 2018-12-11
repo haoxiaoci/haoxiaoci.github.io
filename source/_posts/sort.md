@@ -7,12 +7,8 @@ date: 2018-12-11 14:08:13
 categories:
 ---
 
-### 比较两个算法：
-1. 实现并调试
-2. 分析算法的基本性质
-3. 对其相对性能做出猜想
-4. 用实验验证猜想
 
+# 排序
 
 
 ## 冒泡排序
@@ -22,7 +18,7 @@ categories:
 图示：
 ![BubbleSort.png](https://upload-images.jianshu.io/upload_images/7770956-42d0a30d5520d0dd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 代码实现：
+### 代码实现
 
 
 ```
@@ -34,7 +30,7 @@ def BubbleSort(nums):
                     nums[j+1], nums[j] = nums[j], nums[j+1]
 ```
 
-### 时间复杂度:
+### 时间复杂度
 
 最好的情况下是列表本来就是有序的虽然不用交换，但是遍历的次数依然不会少，依然是O(n^2)，最坏的情况下，每次都要交换；
 
@@ -46,7 +42,7 @@ def BubbleSort(nums):
 图示：
 ![selectionSort.png](https://upload-images.jianshu.io/upload_images/7770956-2bd996b076b37244.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 代码实现：
+### 代码实现
 
 ```
 def SelectionSort(nums):
@@ -59,12 +55,12 @@ def SelectionSort(nums):
         nums[index],nums[length-i-1] = nums[length-i-1], nums[index]
 ```
 
-### 时间复杂度：
+### 时间复杂度
 选择排序和冒泡排序的循环遍历次数是一样的，但是交换次数明显少于冒泡排序，所以选择排序相比较于冒泡排序，执行更快一点；
 最佳的情况下是列表原本就是有序列表，依然遍历O(n^2)次数，但是没有交换操作，这个也是可以优化的，当第一次发现列表是有序的时候就可以退出；
 
 ## 插入排序
-### 算法思路：
+### 算法思路
 以第一个元素为例，对比比第一个元素大的，就插入到其左边，比他大就插入到右边
 图示：
 ![InsertSort.png](https://upload-images.jianshu.io/upload_images/7770956-0491bc2310105e2d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -82,12 +78,12 @@ def SelectSort(a):
 ```
 
 
-### 时间复杂度：
+### 时间复杂度
 最好的情况下是列表本来就是有序的，时间复杂度是O(n)
 最差的情况下是需要比较n-1个整数的总和，时间复杂度是O(n^2),算法
 
 ## 希尔排序
-### 算法思路：
+### 算法思路
 递减递增排序， 根据增量i，循环列表将i的倍数的项拿出来组成子列表，对子列表进行排序，当增量i为1时，排序操作就是插入排序，当增量不为1时，相比较来说，希尔排序移位的次数小于插入排序
 图解：增量i为3
 ![shellsort.png](https://upload-images.jianshu.io/upload_images/7770956-1e3f9055f0b5180f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -95,7 +91,7 @@ def SelectSort(a):
 每个子列表排序：
 ![shellsort2.png](https://upload-images.jianshu.io/upload_images/7770956-4e4b8ab0deb80603.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 代码实现：
+### 代码实现
 
 ```
 def ShellSort(a):
@@ -122,7 +118,7 @@ def ShellSort(a):
 通过改变增量，例如使用	2^k-1（1,3,7,15,31等等）	，希尔排序可以在	O(n )处执行。
 
 ## 归并排序
-### 算法思路：
+### 算法思路
 
 使用分而治之策略，属于一种递归算法，当列表有多项时，我们对列表递归分割操作，直到拆分成最小的单位，每个列表只有一项，然后再比较排序，排序完后向上递归合并，直到合并成完整列表。
 当列表为空或列表大小为1时，不需要排序。
@@ -134,7 +130,7 @@ def ShellSort(a):
 第二步：排序合并
 ![mergesort2.png](https://upload-images.jianshu.io/upload_images/7770956-27207d9b79be8f9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-### 代码实现：
+### 代码实现
 自顶向下的归并排序
 实现1
 这种写法，算是对于原地的写法吧，但是其中用到了数组的分片，我觉得也是需要额外的空间的
@@ -234,7 +230,7 @@ length = len(a)
 MergeSort2(a, 0, length -1)
 ```
 
-自底向上的归并排序：
+自底向上的归并排序
 
 ```
 def MergeSortBU(a):
@@ -252,7 +248,7 @@ LocalSort()函数参考上一段代码
 自底向上这个算法轨迹：
 因为我没看太懂这个算法，留着这个图，以后再看再理解
 ![image.png](https://upload-images.jianshu.io/upload_images/7770956-f8501bffd71cdbd4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-### 时间复杂度：
+### 时间复杂度
 
 O(nlogn), 拆分列表的时候需要O(logn),合并的时候是需要循环整个列表的需要O(n)，所以总的时间复杂度是O(nlogn),代码1中的切片的时间复杂度O(k)可以后续优化，而且因为是切片操作，切出来的列表需要占用额外的空间，当列表很大时，这里也是一个问题.在代码2和代码3中就不存在这个问题啦，啊哈哈哈~
 
@@ -260,7 +256,7 @@ O(nlogn), 拆分列表的时候需要O(logn),合并的时候是需要循环整�
 
 ## 快速排序
 
-### 算法思路：
+### 算法思路
 
 选择列表的一个数作为基准值base，设置指针，一个从左到右left，一个从右到左的right，当left的值大于时，left停下，当right小于base时停下，交换left和right，
 最终知道left和right相遇，对比base的值，base和其中比base小的值交换，这样循环一遍基准值base一定归位，左边全是比base小的，右边全是比base大的，下一次再循环基准值的左半边，和基准值的右半边；
@@ -270,7 +266,7 @@ O(nlogn), 拆分列表的时候需要O(logn),合并的时候是需要循环整�
 ![quicksort.png](https://upload-images.jianshu.io/upload_images/7770956-026a1379222f2f19.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
-### 代码实现：
+### 代码实现
 
 ```
 def quickSort(nums):
@@ -312,7 +308,8 @@ nums = [54,26,93,17,77,31,44,55,20]
 quickSort(nums)
 print(nums)
 ```
-### 算法改进：
+
+### 算法改进
  1. 对于小数组，快速排序和插入排序对比，还是插入排序更快，多小算小呢，5-15之间，代码修改在上边注释中可以看到，当数组长度小于常数15时，会调用插入排序算法
 
 2. 在实际应用中可能排序的数组中存在着大量重复的元素，有很多重复的元素对于快速排序来说是有优化的空间的：
@@ -339,16 +336,18 @@ def Quick3way(a, low, high):
     Quick3way(a, low, lt-1)
     Quick3way(a, gt +1, high)
 ```
+
 有点难理解,来点解释和图：
 ![image.png](https://upload-images.jianshu.io/upload_images/7770956-1984e9f9eefb4281.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![image.png](https://upload-images.jianshu.io/upload_images/7770956-93696c00057d481f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-### 时间复杂度：
+
+### 时间复杂度
 
 最好的情况下，第一个元素作为base，拆分列表就刚好从中间对半对半的拆开，时间复杂度是O(logn), 拆分完在遍历交换元素的时候，是要遍历整个列表的，需要时间复杂度O(n)
 最差的情况下,列表就是有序的列表，第一个元素作为base，每次检查一遍发现自己是正确的元素，左半边是空的元素全在有半边，这时的时间复杂度O(n^2)
 
 
-### 堆排序
+## 堆排序
 
 使用满二叉树构造出一个二叉堆，堆排序是使用最大堆，最小堆，来解决数据中删除最大或最小的元素，插入一个元素，做完这些操作后堆经过排序，队列仍是有序的，当数据量较多时，也可以解决从数据中查找第k大元素，在以上这些使用场景堆排序很占优势
 
@@ -381,5 +380,14 @@ def sink(a, k, N):
 
 堆排序算法的时间复杂度是O(nlogn)
 
-算法对比：
+
+## 如何比较两个算法：
+1. 实现并调试
+2. 分析算法的基本性质
+3. 对其相对性能做出猜想
+4. 用实验验证猜想
+待补充。。。
+
+
+## 算法对比：
 ![image.png](https://upload-images.jianshu.io/upload_images/7770956-bb3a8996b2d3662d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
