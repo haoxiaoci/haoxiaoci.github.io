@@ -1063,7 +1063,7 @@ pre .javascript .function {
   right: 30px;
   z-index: 1050;
   padding: 0 6px;
-  width: initial;
+  width: 24px;
   background: #222;
   font-size: 12px;
   opacity: 1;
@@ -1816,7 +1816,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #e3ff00;
+  background: #ffff5b;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -1911,6 +1911,7 @@ pre .javascript .function {
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: justify;
+  white-space: nowrap;
   line-height: 1.8;
 }
 .post-toc .nav .nav-child {
@@ -2226,6 +2227,19 @@ pre .javascript .function {
 .theme-next .this_ua.browser.QQBrowser {
   background-color: #78ace9 !important;
   border-color: #4cae4c !important;
+}
+#gitment-display-button {
+  display: inline-block;
+  padding: 0 15px;
+  color: #0a9caf;
+  cursor: pointer;
+  font-size: 14px;
+  border: 1px solid #0a9caf;
+  border-radius: 4px;
+}
+#gitment-display-button:hover {
+  color: #fff;
+  background: #0a9caf;
 }
 .post-spread {
   margin-top: 20px;
@@ -2924,14 +2938,17 @@ hr {
   }
 }
 body {
-  background: url("https://source.unsplash.com/MsP7evMP-2w/1600x900");
+  background: url("/images/SeaBackground.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-position: 50% 50%;
+  background-size: cover;
+  width: 100%;
 }
 .main-inner {
   margin-top: 60px;
   padding: 60px 60px 60px 60px;
   background: #fff;
+  opacity: 0.9;
   min-height: 500px;
 }
