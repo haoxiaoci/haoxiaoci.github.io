@@ -11,6 +11,7 @@ tags:
 
 
 python项目为了保持易读性，可维护性，做了代码格式规范，我大概总结了一下这些在格式化python代码中常用到的工具；
+
 ## pep8
 link：
 
@@ -134,7 +135,7 @@ flake8 my_project/
 ### 选项与配置文件
 关于flake8 --help的哪些options的解释：http://flake8.pycqa.org/en/latest/user/options.html
 
-flake8的options配置每次在使用的时候写到命令行有点麻烦，可以写到配置文件中，在一个project中支持的配置文件：==setup.cfg, tox.ini, or .flake8==.
+flake8的options配置每次在使用的时候写到命令行有点麻烦，可以写到配置文件中，在一个project中支持的配置文件：**setup.cfg, tox.ini, or .flake8**.
 并不是所有的命令行配置的options都可以写到配置文件里，
 举个例子，命令行转换到配置文件中：
 
@@ -384,24 +385,72 @@ https://github.com/google/yapf#id10
 
 ```
 Algorithm Design
-The main data structure in YAPF is the UnwrappedLine object. It holds a list of FormatTokens, that we would want to place on a single line if there were no column limit. An exception being a comment in the middle of an expression statement will force the line to be formatted on more than one line. The formatter works on one UnwrappedLine object at a time.
+The main data structure in YAPF is the UnwrappedLine object. It holds a list of FormatTokens,
 
-An UnwrappedLine typically won't affect the formatting of lines before or after it. There is a part of the algorithm that may join two or more UnwrappedLines into one line. For instance, an if-then statement with a short body can be placed on a single line:
+that we would want to place on a single line if there were no column limit. An exception being
+
+a comment in the middle of an expression statement will force the line to be formatted on more
+
+than one line. The formatter works on one UnwrappedLine object at a time.
+
+An UnwrappedLine typically won't affect the formatting of lines before or after it. There is a
+
+part of the algorithm that may join two or more UnwrappedLines into one line. For instance, an
+
+if-then statement with a short body can be placed on a single line:
 
 if a == 42: continue
-YAPF's formatting algorithm creates a weighted tree that acts as the solution space for the algorithm. Each node in the tree represents the result of a formatting decision --- i.e., whether to split or not to split before a token. Each formatting decision has a cost associated with it. Therefore, the cost is realized on the edge between two nodes. (In reality, the weighted tree doesn't have separate edge objects, so the cost resides on the nodes themselves.)
 
-For example, take the following Python code snippet. For the sake of this example, assume that line (1) violates the column limit restriction and needs to be reformatted.
+YAPF's formatting algorithm creates a weighted tree that acts as the solution space for the algorithm.
+
+Each node in the tree represents the result of a formatting decision --- i.e., whether to split
+
+or not to split before a token. Each formatting decision has a cost associated with it. Therefore,
+
+the cost is realized on the edge between two nodes. (In reality, the weighted tree doesn't have 
+
+separate edge objects, so the cost resides on the nodes themselves.)
+
+For example, take the following Python code snippet. For the sake of this example, assume that
+
+line (1) violates the column limit restriction and needs to be reformatted.
 
 def xxxxxxxxxxx(aaaaaaaaaaaa, bbbbbbbbb, cccccccc, dddddddd, eeeeee):  # 1
     pass                                                               # 2
-For line (1), the algorithm will build a tree where each node (a FormattingDecisionState object) is the state of the line at that token given the decision to split before the token or not. Note: the FormatDecisionState objects are copied by value so each node in the graph is unique and a change in one doesn't affect other nodes.
 
-Heuristics are used to determine the costs of splitting or not splitting. Because a node holds the state of the tree up to a token's insertion, it can easily determine if a splitting decision will violate one of the style requirements. For instance, the heuristic is able to apply an extra penalty to the edge when not splitting between the previous token and the one being added.
+For line (1), the algorithm will build a tree where each node (a FormattingDecisionState object)
 
-There are some instances where we will never want to split the line, because doing so will always be detrimental (i.e., it will require a backslash-newline, which is very rarely desirable). For line (1), we will never want to split the first three tokens: def, xxxxxxxxxxx, and (. Nor will we want to split between the ) and the : at the end. These regions are said to be "unbreakable." This is reflected in the tree by there not being a "split" decision (left hand branch) within the unbreakable region.
+is the state of the line at that token given the decision to split before the token or not.
 
-Now that we have the tree, we determine what the "best" formatting is by finding the path through the tree with the lowest cost.
+Note: the FormatDecisionState objects are copied by value so each node in the graph is unique 
+
+and a change in one doesn't affect other nodes.
+
+Heuristics are used to determine the costs of splitting or not splitting. Because a node holds 
+
+the state of the tree up to a token's insertion, it can easily determine if a splitting decision
+
+will violate one of the style requirements. For instance, the heuristic is able to apply an extra
+
+penalty to the edge when not splitting between the previous token and the one being added.
+
+There are some instances where we will never want to split the line, because doing so will always
+
+be detrimental (i.e., it will require a backslash-newline, which is very rarely desirable). 
+
+For line (1), we will never want to split the first three tokens: def, xxxxxxxxxxx, and (. Nor will
+
+we want to split between the ) and the : at the end. These regions are said to be "unbreakable."
+
+This is reflected in the tree by there not being a "split" decision (left hand branch) within 
+
+the unbreakable region.
+
+Now that we have the tree, we determine what the "best" formatting is by finding the path through
+
+the tree with the lowest cost.
+
+And that's it!
 ```
 
 
@@ -461,7 +510,8 @@ autopep8默认不修复E711/E712,因为怕我们自己重写了默认的__eq__�
 --aggressive/-a选项可以提高代码修改错误码的等级，E712报的错误，就是在--aggressive等级是2 的时候修复（就是，x == True could be changed to either x or x is True, but autopep8 chooses the former）
 --aggressive选项还会删除代码中的行末空格，要是想更加规范代码中的文档注释，可以使用 [docformatter](https://github.com/myint/docformatter)
 
-==可是你知道吗，我在此有一问，aggressive一共有几个等级？这文档也没有说明，或许只能从代码里找答案了。==
+
+可是你知道吗，我在此有一问，aggressive一共有几个等级？这文档也没有说明，或许只能从代码里找答案了.....
 #### 举例
 
 一段不规范的代码
@@ -669,27 +719,33 @@ multiprocessing  不支持放在命令行
 
 During execution, coverage.py may warn you about conditions it detects that could affect the measurement process. The possible warnings include:
 
-==“Trace function changed, measurement is likely wrong: XXX (trace-changed)”==
+**“Trace function changed, measurement is likely wrong: XXX (trace-changed)”**
 
-Coverage measurement depends on a Python setting called the trace function. Other Python code in your product might change that function, which will disrupt coverage.py’s measurement. This warning indicates that has happened. The XXX in the message is the new trace function value, which might provide a clue to the cause.
+Coverage measurement depends on a Python setting called the trace function. Other Python code in your product 
 
-==“Module XXX has no Python source (module-not-python)”==
+might change that function, which will disrupt coverage.py’s measurement. This warning indicates that has happened.
 
-You asked coverage.py to measure module XXX, but once it was imported, it turned out not to have a corresponding .py file. Without a .py file, coverage.py can’t report on missing lines.
+ The XXX in the message is the new trace function value, which might provide a clue to the cause.
 
-==“Module XXX was never imported (module-not-imported)”==
+**“Module XXX has no Python source (module-not-python)”**
+
+You asked coverage.py to measure module XXX, but once it was imported, it turned out not to have a corresponding .py file. Without a .py file, 
+
+coverage.py can’t report on missing lines.
+
+**“Module XXX was never imported (module-not-imported)”**
 
 You asked coverage.py to measure module XXX, but it was never imported by your program.
 
-==“No data was collected (no-data-collected)”==
+**“No data was collected (no-data-collected)”**
 
 Coverage.py ran your program, but didn’t measure any lines as executed. This could be because you asked to measure only modules that never ran, or for other reasons.
 
-==“Module XXX was previously imported, but not measured (module-not-measured)”==
+**“Module XXX was previously imported, but not measured (module-not-measured)”**
 
 You asked coverage.py to measure module XXX, but it had already been imported when coverage started. This meant coverage.py couldn’t monitor its execution.
 
-==“–include is ignored because –source is set (include-ignored)”==
+**“–include is ignored because –source is set (include-ignored)”**
 
 Both --include and --source were specified while running code. Both are meant to focus measurement on a particular part of your source code, so --include is ignored in favor of --source.
 
@@ -735,13 +791,21 @@ $ coverage combine data1.dat windows_data_files/
 
 -i/-ignore-errors
 
-The -i or --ignore-errors switch tells coverage.py to ignore problems encountered trying to find source files to report on. This can be useful if some files are missing, or if your Python execution is tricky enough that file names are synthesized without real source files.
+The -i or --ignore-errors switch tells coverage.py to ignore problems encountered trying to find source files to report on.
+
+ This can be useful if some files are missing, or if your Python execution is tricky enough that file names are synthesized without real source files.
 
 --fail-under
 
-If you provide a --fail-under value, the total percentage covered will be compared to that value. If it is less, the command will exit with a status code of 2, indicating that the total coverage was less than your target. This can be used as part of a pass/fail condition, for example in a continuous integration server. This option isn’t available for annotate.
+If you provide a --fail-under value, the total percentage covered will be compared to that value. If it is less, 
 
--m  shows the line numbers of missing statements, If you are using branch coverage, then branch statistics will be reported in the Branch and BrPart (for Partial Branch) columns, the Missing column will detail the missed branches
+the command will exit with a status code of 2, indicating that the total coverage was less than your target. 
+
+This can be used as part of a pass/fail condition, for example in a continuous integration server. This option isn’t available for annotate.
+
+-m  shows the line numbers of missing statements, If you are using branch coverage, then branch statistics will be 
+
+reported in the Branch and BrPart (for Partial Branch) columns, the Missing column will detail the missed branches
 
 --skip-covered
 The --skip-covered switch will leave out any file with 100% coverage, letting you focus on the files that still need attention.
@@ -811,4 +875,3 @@ data: show a summary of the collected coverage data
 https://linux.cn/article-10059-1.html
 
 https://www.jianshu.com/p/e485c82dcff9
-
